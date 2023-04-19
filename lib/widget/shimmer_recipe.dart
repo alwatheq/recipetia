@@ -45,7 +45,8 @@ class ShimmerRecipe extends StatelessWidget {
                         child: Container(
                           width: double.infinity,
                           color: Colors.white,
-                        )),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -59,7 +60,7 @@ class ShimmerRecipe extends StatelessWidget {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Shimmer.fromColors(
@@ -73,7 +74,8 @@ class ShimmerRecipe extends StatelessWidget {
                                     height: 0,
                                     fontWeight: FontWeight.bold,
                                     fontFamily:
-                                        Constant.mainFontFamily.fontFamily),
+                                      Constant.mainFontFamily.fontFamily,
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -109,23 +111,31 @@ class ShimmerRecipe extends StatelessWidget {
                       baseColor: const Color(0xFFEBEBF4),
                       highlightColor: const Color(0xFFEBEBF4).withOpacity(0.5),
                       child: SizedBox(
-                        width: 280,
+                        width: 260,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: double.infinity,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white,
+                              ),
+                              height: 16,
                               child: const Text(""),
+                              width: double.infinity,
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 6,
                             ),
                             Container(
-                              width: 200,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: Colors.white,
+                              ),
                               child: const Text(""),
+                              height: 10,
+                              width: 200,
                             ),
                           ],
                         ),
@@ -136,7 +146,7 @@ class ShimmerRecipe extends StatelessWidget {
                       highlightColor: const Color(0xFFEBEBF4).withOpacity(0.5),
                       child: Icon(
                         Icons.favorite,
-                        size: 22.sp,
+                        size: 28.sp,
                         color: Colors.red,
                       ),
                     )

@@ -194,7 +194,7 @@ class DetailedRecipe extends StatelessWidget {
                         return Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 8),
-                          height: 1.h,
+                          height: 2.h,
                           width: 50.w,
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:recipetia/constants/constant.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sizer/sizer.dart';
 
 import '../provider/un_favorite_provider.dart';
 import '../widget/recipe_widget.dart';
@@ -31,17 +32,41 @@ class FavoritePage extends StatelessWidget {
             );
           }
           return ListView.builder(
-              itemCount: listOfFavorites.length + 1,
-              itemBuilder: (context, index) {
-                if (index < listOfFavorites.length) {
-                  return listOfFavorites[index];
-                }
+            itemCount: listOfFavorites.length + 1,
+            itemBuilder: (context, index) {
+              if (index < listOfFavorites.length) {
+                final AppearanceNotifier controller =
+                    AppearanceNotifier(listOfFavorites[index].isFavorite);
+                listOfFavorites[index].appearanceController = controller;
                 return Container(
-                  color: Colors.amber,
+                  key: ValueKey("${listOfFavorites[index].id}"),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: AnimatedBuilder(
+                    animation: controller,
+                    builder: (context, child) => AnimatedSlide(
+                      offset: controller.appear
+                          ? const Offset(0, 0)
+                          : const Offset(-2, 0),
+                      duration: const Duration(milliseconds: 300),
+                      child: listOfFavorites[index],
+                    ),
+                  ),
                 );
-              });
+              }
+              return Container();
+            },
+          );
         },
       )),
     );
+  }
+}
+
+class AppearanceNotifier extends ChangeNotifier {
+  AppearanceNotifier(this.appear);
+  bool appear;
+  changeState() {
+    appear = false;
+    notifyListeners();
   }
 }

@@ -28,7 +28,9 @@ class InfiniteRecipes extends StatelessWidget {
                 20,
                 (index) => Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: const ShimmerRecipe()));
+                child: const ShimmerRecipe(),
+              ),
+            );
             return Column(
               children: shimmers,
             );

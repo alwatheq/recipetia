@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class Recipe extends StatelessWidget {
   final List<dynamic> instructions;
   final String description;
   final int? time;
+  AppearanceNotifier? appearanceController;
   Recipe({
     super.key,
     required this.name,
@@ -37,6 +39,7 @@ class Recipe extends StatelessWidget {
     required this.instructions,
     required this.description,
     required this.time,
+    this.appearanceController,
   });
 
   final favoriteProvider = StateNotifierProvider<FavoriteNotifier, bool>((ref) {
@@ -45,25 +48,28 @@ class Recipe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HeartNotifier _favoriteController = HeartNotifier(isFavorite);
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => DetailedRecipe(
-                      description: description,
-                      instructions: instructions,
-                      name: name,
-                      maker: maker,
-                      imageUrl: imageUrl,
-                      score: score,
-                      id: id,
-                      comp: comp,
-                      favorite: isFavorite,
-                      nutrition: nutrition,
-                      time: time,
-                      prov: favoriteProvider,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (_) => DetailedRecipe(
+              description: description,
+              instructions: instructions,
+              name: name,
+              maker: maker,
+              imageUrl: imageUrl,
+              score: score,
+              id: id,
+              comp: comp,
+              favorite: isFavorite,
+              nutrition: nutrition,
+              time: time,
+              prov: favoriteProvider,
+            ),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -71,9 +77,10 @@ class Recipe extends StatelessWidget {
             color: Colors.white,
             boxShadow: const [
               BoxShadow(
-                  blurRadius: 10,
-                  color: Color(0x39000000),
-                  offset: Offset(0, 5))
+                blurRadius: 10,
+                color: Color(0x39000000),
+                offset: Offset(0, 5),
+              )
             ]),
         height: 30.h,
         margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -122,7 +129,7 @@ class Recipe extends StatelessWidget {
                                         Constant.mainFontFamily.fontFamily),
                               ),
                               const SizedBox(
-                                width: 5,
+                                width: 10,
                               ),
                               Icon(
                                 Icons.star,
@@ -145,7 +152,7 @@ class Recipe extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 280,
+                      width: 63.w,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,40 +182,54 @@ class Recipe extends StatelessWidget {
                     Row(
                       children: [
                         Consumer(builder: (context, ref, child) {
-                          ref.watch(favoriteProvider);
-
-                          return IconButton(
-                            onPressed: () {
-                              ref.read(favoriteProvider.notifier).change();
-                              isFavorite = !isFavorite;
-                              if (isFavorite) {
-                                const favoriteSnackBar = SnackBar(
-                                  content: Text("added to favorites"),
-                                  duration: Duration(seconds: 1),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(favoriteSnackBar);
-                                ref
-                                    .read(unFavoritesProvider.notifier)
-                                    .add(this);
-                              } else {
-                                const favoriteSnackBar = SnackBar(
-                                  content: Text("removed from favorites"),
-                                  duration: Duration(seconds: 1),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(favoriteSnackBar);
-                                ref
-                                    .read(unFavoritesProvider.notifier)
-                                    .removeRecipe(this);
-                              }
-                            },
-                            icon: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              size: 22.sp,
-                              color: Colors.red,
+                          return AnimatedBuilder(
+                            animation: _favoriteController,
+                            builder: (context, child) => Container(
+                              width: 50,
+                              child: GestureDetector(
+                                onTap: () {
+                                  ref.read(favoriteProvider.notifier).change();
+                                  isFavorite = !isFavorite;
+                                  _favoriteController.changeState(isFavorite);
+                                  final favoriteSnackBar = SnackBar(
+                                    content: Text(
+                                      "${isFavorite ? 'added to' : 'removed from'} favorites",
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                  );
+                                  if (isFavorite) {
+                                    ref
+                                        .read(unFavoritesProvider.notifier)
+                                        .add(this);
+                                  } else {
+                                    appearanceController?.changeState();
+                                    Future.delayed(Duration(milliseconds: 300))
+                                        .then(
+                                      (value) => ref
+                                          .read(unFavoritesProvider.notifier)
+                                          .removeRecipe(this),
+                                    );
+                                  }
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(favoriteSnackBar);
+                                },
+                                child: AnimatedScale(
+                                  duration: Duration(milliseconds: 250),
+                                  scale: _favoriteController.size / 22.sp,
+                                  curve: Curves.decelerate,
+                                  child: isFavorite
+                                      ? Icon(
+                                          Icons.favorite,
+                                          size: _favoriteController.size,
+                                          color: Colors.red,
+                                        )
+                                      : Icon(
+                                          Icons.favorite_border,
+                                          size: _favoriteController.size,
+                                          color: Colors.red,
+                                        ),
+                                ),
+                              ),
                             ),
                           );
                         })
@@ -238,5 +259,22 @@ class Recipe extends StatelessWidget {
       description: description,
       time: time,
     );
+  }
+}
+
+class HeartNotifier extends ChangeNotifier {
+  HeartNotifier(this.filled);
+  bool filled;
+  double size = 22.sp;
+  changeState(bool value) {
+    filled = value;
+    if (value) {
+      size = 25.sp;
+      Future.delayed(Duration(milliseconds: 1000)).then((value) {
+        size = 22.sp;
+        notifyListeners();
+      });
+    }
+    notifyListeners();
   }
 }

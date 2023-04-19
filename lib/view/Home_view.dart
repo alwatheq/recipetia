@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:recipetia/widget/shimmer_recipe.dart';
 import 'package:sizer/sizer.dart';
 
 import '../API/API.dart';

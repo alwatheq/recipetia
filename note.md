@@ -1,0 +1,1 @@
+- refresh indicator in HomePage dose NOT work
