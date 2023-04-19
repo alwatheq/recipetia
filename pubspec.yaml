@@ -1,0 +1,36 @@
+name: recipetia
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+
+
+
+
+dependencies:
+  fluentui_system_icons: ^1.1.198
+  flutter:
+    sdk: flutter
+  google_fonts: ^4.0.3
+  hooks_riverpod: ^2.3.4
+  http: ^0.13.5
+
+
+  infinite_scroll_pagination: ^3.2.0
+  salomon_bottom_bar: ^3.3.2
+  search_page: ^2.3.0
+  shared_preferences: ^2.1.0
+  shimmer: ^2.0.0
+  sizer: ^2.0.15
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
