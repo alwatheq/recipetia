@@ -10,6 +10,7 @@ environment:
 
 
 dependencies:
+  drop_shadow_image: ^0.9.1
   fluentui_system_icons: ^1.1.198
   flutter:
     sdk: flutter
@@ -34,3 +35,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/gif/

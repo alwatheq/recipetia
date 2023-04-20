@@ -13,7 +13,7 @@ class Constant {
   static String recipeList = "recipes/list";
   static String recipeListSimilarity = "recipes/list-similarities";
 
-  static const Color mainColor = Color(0xffD99651);
+  static const Color mainColor = Color(0xffFF7643);
 
   Constant._();
 

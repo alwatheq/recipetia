@@ -71,13 +71,26 @@ class WelcomePage extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(
                           context, Constant.enterNameRoute, (route) => true);
                     },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Constant.mainColor),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                        Constant.mainColor.withOpacity(0.4),
+                      ),
+                      overlayColor: MaterialStateProperty.all(
+                        Constant.mainColor.withOpacity(0.3),
+                      ),
+                      side: MaterialStateProperty.all(
+                        BorderSide(color: Constant.mainColor),
+                      ),
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(horizontal: 30),
+                      ),
+                    ),
                     child: const Text(
                       "Get Started",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
+                          fontSize: 18
                       ),
                     ),
                   ),

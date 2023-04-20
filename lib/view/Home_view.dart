@@ -44,48 +44,61 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   Widget build(BuildContext context) {
     super.build(context);
     return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "Lets cook",
-              style: TextStyle(
-                  fontSize: 36.sp,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: Constant.mainFontFamily.fontFamily,
-                  color: const Color(0xff535353)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Lets cook",
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Constant.mainFontFamily.fontFamily,
+                      color: const Color(0xff535353)),
+                ),
+                IconButton(
+                    onPressed: () => showSearch(
+                          context: context,
+                          delegate: CustomSearchDelegate(),
+                        ),
+                    icon: Icon(Icons.search))
+              ],
             ),
-            Container(
-                padding: const EdgeInsets.all(32),
-                child: TextField(
-                  onTap: () => showSearch(
-                      context: context, delegate: CustomSearchDelegate()),
-                  controller: search,
-                  onTapOutside: (event) {},
-                  textInputAction: TextInputAction.search,
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xF99E9E9E), width: 2)),
-                    prefixIcon: const Icon(
-                      FluentIcons.search_12_filled,
-                      color: Color(0xF99E9E9E),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: const BorderSide(
-                            color: Color(0xF99E9E9E), width: 2)),
-                    filled: true,
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    hintText: "Search",
-                    fillColor: const Color(0x259E9E9E),
-                  ),
-                )),
-            InfiniteRecipes(controller: controller),
-          ],
-        ),
+          ),
+          // Container(
+          //     padding: const EdgeInsets.all(32),
+          //     child: TextField(
+          //       onTap: () => showSearch(
+          //           context: context, delegate: CustomSearchDelegate()),
+          //       controller: search,
+          //       onTapOutside: (event) {},
+          //       textInputAction: TextInputAction.search,
+          //       decoration: InputDecoration(
+          //         focusedBorder: OutlineInputBorder(
+          //             borderRadius: BorderRadius.circular(20.0),
+          //             borderSide: const BorderSide(
+          //                 color: Color(0xF99E9E9E), width: 2)),
+          //         prefixIcon: const Icon(
+          //           FluentIcons.search_12_filled,
+          //           color: Color(0xF99E9E9E),
+          //         ),
+          //         enabledBorder: OutlineInputBorder(
+          //             borderRadius: BorderRadius.circular(20.0),
+          //             borderSide: const BorderSide(
+          //                 color: Color(0xF99E9E9E), width: 2)),
+          //         filled: true,
+          //         hintStyle: const TextStyle(color: Colors.grey),
+          //         hintText: "Search",
+          //         fillColor: const Color(0x259E9E9E),
+          //       ),
+          //   ),
+          // ),
+          InfiniteRecipes(controller: controller),
+        ],
       ),
     );
   }

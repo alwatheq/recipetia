@@ -21,7 +21,7 @@ final pages = [
   const Home(),
   const FavoritePage(),
 ];
-int current = 1;
+int current = 0;
 
 class _HomePageState extends State<HomePage> {
   @override

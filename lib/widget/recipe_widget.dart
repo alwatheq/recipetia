@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:recipetia/constants/constant.dart';
 
 import 'package:recipetia/view/favorite_page.dart';
-import 'package:recipetia/widget/detailed_recipe_widget.dart';
+import 'package:recipetia/widget/detailed.dart';
 import 'package:sizer/sizer.dart';
 
 import '../provider/favorite_provider.dart';
@@ -43,7 +43,7 @@ class Recipe extends StatelessWidget {
   });
 
   final favoriteProvider = StateNotifierProvider<FavoriteNotifier, bool>((ref) {
-    return FavoriteNotifier();
+    return FavoriteNotifier(false);
   });
 
   @override
@@ -54,7 +54,7 @@ class Recipe extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => DetailedRecipe(
+            builder: (_) => Detailed(
               description: description,
               instructions: instructions,
               name: name,
@@ -66,7 +66,7 @@ class Recipe extends StatelessWidget {
               favorite: isFavorite,
               nutrition: nutrition,
               time: time,
-              prov: favoriteProvider,
+              // prov: favoriteProvider,
             ),
           ),
         );
@@ -245,6 +245,21 @@ class Recipe extends StatelessWidget {
     );
   }
 
+  // to json
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'maker': maker,
+        'imageUrl': imageUrl,
+        'score': score,
+        'id': id,
+        'comp': comp,
+        'isFavorite': isFavorite,
+        'nutrition': nutrition,
+        'instructions': instructions,
+        'description': description,
+        'time': time,
+      };
+
   Recipe copy() {
     return Recipe(
       name: name,
@@ -258,6 +273,23 @@ class Recipe extends StatelessWidget {
       instructions: instructions,
       description: description,
       time: time,
+    );
+  }
+
+  // from json
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      name: json['name'],
+      maker: json['maker'],
+      imageUrl: json['imageUrl'],
+      score: json['score'],
+      id: json['id'],
+      comp: json['comp'],
+      isFavorite: json['isFavorite'],
+      nutrition: json['nutrition'],
+      instructions: json['instructions'],
+      description: json['description'],
+      time: json['time'],
     );
   }
 }

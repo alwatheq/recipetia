@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:recipetia/API/API.dart';
 import 'package:recipetia/constants/constant.dart';
-import 'package:recipetia/view/enter_name_view.dart';
 import 'package:recipetia/view/home_page.dart';
 import 'package:recipetia/view/welcome_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-
+import 'view/login.dart';
 late SharedPreferences pref;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   pref = await SharedPreferences.getInstance();
-  // pref.clear();
   runApp(ProviderScope(
     child: Sizer(
       builder: (context, orientation, deviceType) => MaterialApp(
